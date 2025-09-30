@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 void show_board(char *board){
-
+    
     printf("\n%c|%c|%c\n", board[0], board[1], board[2]);
     printf("______\n");
     printf("%c|%c|%c|\n", board[3], board[4], board[5]);
@@ -10,11 +10,12 @@ void show_board(char *board){
 }
 
 void uinput(char *board, int turn){
+
     int move;
     scanf("%d", &move);
     while (board[move-1] == 'x'|| board[move-1] == 'y'){
         printf("square taken, choose another\n");
-        scanf("%d", &move);
+        scanf(" %d", &move);
     }
     if(turn%2 ==0){
         board[move-1] = 'x';
@@ -25,6 +26,7 @@ void uinput(char *board, int turn){
 
 int win_check(char *board, int turn){
 
+    show_board(board);
         if(board[0] == board[1] && board[1] == board[2] ||
        board[0] == board[3] && board[3] == board[6] || 
        board[0] == board[4] && board[4] == board[8] ||
@@ -34,8 +36,6 @@ int win_check(char *board, int turn){
        board[3] == board[4] && board[4] == board[5] ||
        board[6] == board[7] && board[7] == board[8]){
 
-            show_board(board);
-
             if(turn%2 == 0){
                 printf("\nplayer x wins\n");
                 return (0);
@@ -43,8 +43,12 @@ int win_check(char *board, int turn){
                 printf("\nplayer o wins\n");
                 return (0);
             }
-    } return (1);
-    
+        } 
+        if (turn == 10){
+            printf("game overrr you draw\n");
+            return (0);
+        } 
+    return (1);
 }
 
 int main(){
@@ -53,28 +57,15 @@ int main(){
     char board[9] = {'1','2','3','4','5','6','7','8','9'};
 
 while(win_check(board, turn)){
-      
+    
     turn++;
-    show_board(board);
-
-    printf("you are symbol x, where would you like to go?\n");
-    uinput(board, turn); 
-    
-    if (win_check(board, turn) == 0){
-        break;
+    if (turn%2 == 0){
+        printf("you are symbol x, where would you like to go?\n");
+    }else{
+        printf("you are symbol o, where would you like to go?\n");
     }
-
-    show_board(board);
-    turn ++;
-
-    printf("you are symbol o, where would you like to go?\n");
     uinput(board, turn);
-
-    if (win_check(board, turn) == 0){
-        break;
-    }
 }
-    
     printf("meowmeowmeow\n");
     return 0;
 }
